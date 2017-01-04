@@ -8,13 +8,13 @@ public class NormalRPG{
       int[] Demo = new int[5];
       setlvl(Demo, 1);
       sethp(Demo, 25);
-      setattack(Demo, 6);
+      setatk(Demo, 6);
       setdef(Demo, 2);
       setspd(Demo, 3);
       int[] Slime = new int[5];
       setlvl(Slime, 1);
       sethp(Slime, 10);
-      setattack(Slime, 5);
+      setatk(Slime, 5);
       setdef(Slime, 1);
       setspeed(Slime, 2);
     }
@@ -25,7 +25,7 @@ public class NormalRPG{
     public int gethp(int[] a){
       return a[1];
     }
-    public int getattack(int[] a){
+    public int getatk(int[] a){
       return a[2];
     }
     public int getdef(int[] a){
@@ -41,7 +41,7 @@ public class NormalRPG{
     public void sethp(int[] a, int b){
       a[1] = b;
     }
-    public void setattack(int[] a, int b){
+    public void setatk(int[] a, int b){
       a[2] = b;
     }
     public void setdef(int[] a, int b){
@@ -69,7 +69,7 @@ public class NormalRPG{
         Sysgtem.out.println("MISS");
       }
       if (c == 19){
-        int z = (int)(getattack(attacker) * 3) - (getdef(target));
+        int z = (int)(getatk(attacker) * 3) - (getdef(target));
         if (z < 0) {
           z = 0;
         }
@@ -80,7 +80,7 @@ public class NormalRPG{
         System.out.println("CRITICAL HIT:" + z + " damage dealt");
       }
       else {
-        int z = (int)(getattack(attacker) - (getdef(target)));
+        int z = (int)(getatk(attacker) - (getdef(target)));
         if (z < 0) {
           z = 0;
         }
@@ -96,7 +96,7 @@ public class NormalRPG{
     }
 
     public String Block(int[] attacker, int[] target){
-      int z = (int)(0.5 * (getattack(attacker) - getdef(target)));
+      int z = (int)(0.5 * (getatk(attacker) - getdef(target)));
       sethp(target, gethp(target) - z);
       return "BLOCKED:" + z + "damage dealt";
     }
