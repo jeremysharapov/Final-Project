@@ -61,6 +61,10 @@ public class NormalRPG{
         Attack(target, attacker);
         Attack(attacker, target);
       }
+      else (
+        Attack(attacker, target);
+        Attack(target, attacker);
+      }
     }   
     
     public void Attack(int[] attacker, int[] target){
