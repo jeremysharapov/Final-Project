@@ -5,18 +5,18 @@ public class NormalRPG{
     private int[] Slime;
     
     public NormalRPG(){
-      int[] Demo = new int[5];
+      Demo = new int[5];
       setlvl(Demo, 1);
       sethp(Demo, 25);
       setatk(Demo, 6);
       setdef(Demo, 2);
       setspd(Demo, 3);
-      int[] Slime = new int[5];
+      Slime = new int[5];
       setlvl(Slime, 1);
       sethp(Slime, 10);
       setatk(Slime, 5);
       setdef(Slime, 1);
-      setspeed(Slime, 2);
+      setspd(Slime, 2);
     }
     
     public int getlvl(int[] a){
@@ -61,7 +61,7 @@ public class NormalRPG{
         Attack(target, attacker);
         Attack(attacker, target);
       }
-      else (
+      else{
         Attack(attacker, target);
         Attack(target, attacker);
       }
@@ -70,7 +70,7 @@ public class NormalRPG{
     public void Attack(int[] attacker, int[] target){
       int c = (int)(Math.random() * 20);
       if (c == 0){
-        Sysgtem.out.println("MISS");
+        System.out.println("MISS");
       }
       if (c == 19){
         int z = (int)(getatk(attacker) * 3) - (getdef(target));
