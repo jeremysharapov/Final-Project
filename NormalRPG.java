@@ -1,136 +1,162 @@
 import java.util.*;
-
 public class NormalRPG{
-    private int[] Demo;
+    private String PlayerName;
+    private String EnemyName;
+    private int[] Player;
     private int[] Slime;
-    
+ 
     public NormalRPG(){
-      Demo = new int[5];
-      setlvl(Demo, 1);
-      sethp(Demo, 25);
-      setatk(Demo, 6);
-      setdef(Demo, 2);
-      setspd(Demo, 3);
-      Slime = new int[5];
-      setlvl(Slime, 1);
-      sethp(Slime, 10);
-      setatk(Slime, 5);
-      setdef(Slime, 1);
-      setspd(Slime, 2);
+        Player = new int[5];
+        Slime = new int[5];
+	setlvl(Slime, 1);
+	sethp(Slime, 10);
+	setatk(Slime, 5);
+	setdef(Slime, 1);
+	setspd(Slime, 2);
+	EnemyName = "SLIME";
     }
     
     public int getlvl(int[] a){
-      return a[0];
+	return a[0];
     }
     public int gethp(int[] a){
-      return a[1];
+	return a[1];
     }
-    public int getatk(int[] a){
-      return a[2];
+    public int getattack(int[] a){
+	return a[2];
     }
     public int getdef(int[] a){
-      return a[3];
+	return a[3];
     }
     public int getspd(int[] a){
-      return a[4];
+	return a[4];
     }
     
     public void setlvl(int[] a, int b){
-      a[0] = b;
+	a[0] = b;
     }
     public void sethp(int[] a, int b){
-      a[1] = b;
+	a[1] = b;
     }
     public void setatk(int[] a, int b){
-      a[2] = b;
+	a[2] = b;
     }
     public void setdef(int[] a, int b){
-      a[3] = b;
+	a[3] = b;
     }
     public void setspd(int[] a, int b){
-      a[4] = b;
+	a[4] = b;
     }
     
-    public void BATTLE(int[] attacker, int[] target){
-      //if input block Block(attacker, target);
-      if (getspd(attacker) > getspd(target)){
-        Attack(attacker, target);
-        Attack(target, attacker);
-      }
-      if (getspd(target) > getspd(attacker)){
-        Attack(target, attacker);
-        Attack(attacker, target);
-      }
-      else{
-        Attack(attacker, target);
-        Attack(target, attacker);
-      }
-    }   
-    
-    public void Attack(int[] attacker, int[] target){
-      int c = (int)(Math.random() * 20);
-      if (c == 0){
-        System.out.println("MISS");
-      }
-      if (c == 19){
-        int z = (int)(getatk(attacker) * 3) - (getdef(target));
-        if (z < 0) {
-          z = 0;
-        }
-        sethp(target, gethp(target) - z);
-        if (gethp(target) < 0){
-          sethp(target, 0);
-        }
-        System.out.println("CRITICAL HIT:" + z + " damage dealt");
-      }
-      else {
-        int z = (int)(getatk(attacker) - (getdef(target)));
-        if (z < 0) {
-          z = 0;
-        }
-        sethp(target, gethp(target) - z);
-        if (gethp(target) < 0){
-          sethp(target, 0);
-        }
-        System.out.println(z + " damage dealt");
-      }
-      if (gethp(target) == 0){
-        System.out.println(target + "WAS DEFEATED!");
-      } 
+    public void Attack(int[] attacker, int[] target, String attackername, String targetname){
+	int c = (int)(Math.random() * 20);
+	if (c == 0){
+	    System.out.println(attackername + " MISSED!");
+	}
+	if (c == 19){
+	    int z = (int)(getattack(attacker) * 3) - (getdef(target));
+	    if (z < 0) {
+		z = 0;
+	    }
+	    sethp(target, gethp(target) - z);
+	    if (gethp(target) < 0){
+		sethp(target, 0);
+	    }
+	    System.out.println(attackername + " just did a CRITICAL HIT: " + z + " damage dealt to " + targetname);
+	}
+	else {
+	    int z = (int)(getattack(attacker) - (getdef(target)));
+	    if (z < 0) {
+		z = 0;
+	    }
+	    sethp(target, gethp(target) - z);
+	    if (gethp(target) < 0){
+		sethp(target, 0);
+	    }
+	    System.out.println(attackername + " does " + z + " damage to " + targetname);
+	}
     }
 
     public String Block(int[] attacker, int[] target){
-      int z = (int)(0.5 * (getatk(attacker) - getdef(target)));
-      sethp(target, gethp(target) - z);
-      return "BLOCKED:" + z + "damage dealt";
+	int z = (int)(0.5 * (getattack(attacker) - getdef(target)));
+	sethp(target, gethp(target) - z);
+	return "Blocked:" + z + "damage dealt";
     }
-    
+
     private static void clearScreen(){
-      System.out.print("\033[2J\033[;H");
+	System.out.print("\033[2J\033[;H");
     }
-    
+
     private static void pressEnterToContinue(){ 
-      System.out.println("Press enter to continue...");
-      try{
-        System.in.read();
-      }  
-      catch(Exception e){
-      }  
+        System.out.println("Press enter to continue...");
+        Scanner scanner = new Scanner(System.in);
+	String S = scanner.nextLine();   
     }
-    
+
     private static String getInput() {
-      Scanner scanner = new Scanner(System.in);
-      return scanner.nextLine();
+	Scanner scanner = new Scanner(System.in);
+	String S = scanner.nextLine(); 
+	return S;
+    }
+
+    private boolean isDead(int[] unit){
+	boolean D = false;
+	if (gethp(unit) == 0){
+	    D = true;
+	}
+	return D;
+    }
+
+    private void ChooseYourClass(){
+	System.out.println("CHOOSE YOUR CLASS . . . . . . . . . .DEMO");
+	String s = getInput().toUpperCase();
+	if (s.equals("DEMO")){
+	    setlvl(Player, 1);
+	    sethp(Player, 25);
+	    setatk(Player, 6);
+	    setdef(Player, 2);
+	    setspd(Player, 3);
+	    PlayerName = "Demo";
+	}
     }
     
+    private void Battle(int[] player, int[] enemy){
+	clearScreen();
+	ChooseYourClass();
+	System.out.println(PlayerName + " encounters " + EnemyName + "!");
+	pressEnterToContinue();
+	while (isDead(player) != true &&  isDead(enemy) != true){
+	    clearScreen();
+	    System.out.println(PlayerName + "'s hp is " + gethp(player));
+	    System.out.println(EnemyName + "'s hp is " + gethp(enemy));
+	    System.out.println("What will you do?        ATTACK         BLOCK       ITEMS        RUN");
+	    String s = (getInput()).toUpperCase();
+	    if (s.equals("ATTACK")){
+		if (getspd(player) < getspd(enemy)){
+		    Attack(enemy, player, EnemyName, PlayerName);
+		    if (isDead(player)){
+			System.out.println(PlayerName + " WAS DEFEATED!");
+		    }
+		    else{
+		    Attack(player, enemy, PlayerName, EnemyName);
+		    }
+		}
+		else{
+		    Attack(player, enemy, PlayerName, EnemyName);
+		    if (isDead(enemy)){
+			System.out.println(EnemyName + " WAS DEFEATED!");
+		    }
+		    else{
+			Attack(enemy, player, EnemyName, PlayerName);
+		    }
+		}
+	    }
+	}
+    }
+		    
     public static void main(String[] args){
-      clearScreen();
-      System.out.println("Demo was attacked by Slime!");
-      pressEnterToContinue();
-      System.out.println("What will you do?                      ATTACK                           BLOCK");
-      System.out.println(getInput());
+	NormalRPG r = new NormalRPG();
+	r.Battle(r.Player, r.Slime);
     }
 }
-
-
-
+    
