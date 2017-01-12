@@ -119,51 +119,74 @@ public class NormalRPG{
   public void Block(int[] attacker, int[] target, String attackerName, String targetName){
     int z = (int)(0.5 * (getatk(attacker) - getdef(target)));
     sethp(target, gethp(target) - z);
-    System.out.println(targetName + " blocked " + attackerName + ": " + z + " damage dealt!");
+    System.out.println(targetName + " blocked!\n" + attackerName + " did " + z + " damage to " + targetName);
   }
   
-  public void Skills(int[] attacker, int[] target, String attackerName, String targetName){
+  public void Skills(int[] player, int[] enemy){
     clearScreen();
-    if (getskills(attacker) == 0){
+    String x = "";
+    if (getskills(player) == 0){
       System.out.println("You seem to have forgotten how to use your skills.");
     }
     else{
-      System.out.println("  Your Skill Knowledge  ");
-      if (getskills(attacker) > 0){
-        System.out.println("[1] Fireball: Deal 15 fire dmg to enemy");
-        if (getskills(attacker) > 1){
-          System.out.println("[2] Heal: Heal 5% of your max mp");
-          if (getskills(attacker) > 2){
-            System.out.println("[3] Slash: Instantly deal 10 damage to the enemy, ignores defense and defensive traits (block included)");
+      System.out.println("    Your Skill Knowledge  ");
+      if (getskills(player) > 0){
+        System.out.println(" 1. Fireball: Deal 15 fire dmg to enemy");
+        x += "   [FIREBALL]\n";
+        if (getskills(player) > 1){
+          System.out.println(" 2. Heal: Heal 5% of your max mp");
+          x += "   [HEAL]\n";
+          if (getskills(player) > 2){
+            System.out.println(" 3. Slash: Instantly deal 10 damage to the enemy, ignores defense and defensive traits (block included)");
+            x += "   [SLASH]\n";
           }
         }
       }
-      System.out.println("\n Pick a skill number or press enter twice to go back to the fight menu.");
-      char s = getInput().charAt(0);
-      if (s < 10 && s >= 0) {
-        Skillattack(attacker, target, attackerName, targetName, s);
+      System.out.println("\n  What will you choose?\n" + x + "   [RETURN] to the fight menu");
+      String s = (getInput()).toUpperCase();
+      if (getspd(player) < getspd(enemy)){
+        Attack(enemy, player, EnemyName, PlayerName);
+        if (isDead(player)){
+          System.out.println(PlayerName + " WAS DEFEATED!");
+          pressEnterToContinue();
+        }
+        else{
+          Attack(player, enemy, PlayerName, EnemyName);
+        }
+      }
+      else{
+        Skillattack(Player, enemy, PlayerName, EnemyName, s);
+        if (isDead(enemy)){
+          System.out.println(EnemyName + " WAS DEFEATED!");
+          pressEnterToContinue();
+        }
+        else{
+          Attack(enemy, player, EnemyName, PlayerName);
+        }
       }
     }
   }
-        
   
-  public void Skillattack(int[] attacker, int[] target, String attackerName, String targetName, char number){
-    if (number == 1){
+  public void Skillattack(int[] attacker, int[] target, String attackerName, String targetName, String skill){
+    if (skill.equals("FIREBALL")){
       sethp(target, gethp(target) - 15); //FOR NOW NO ONE HAS FIRE IMMUNITY SO THIS IS RAW DMG
       System.out.println(attackerName + " just used Fireball: 15 fire dmg dealt to " + targetName + "!");
     }
-    if (number == 2){
-      int z = (int)(getmaxhp(target) * 0.05);
+    if (skill.equals("HEAL")){
+      int z = (int)(getmaxhp(target) * 1.05);
       sethp(attacker, gethp(attacker) + z);
       if (gethp(attacker) > getmaxhp(attacker)) {
         sethp(attacker, getmaxhp(attacker));
       }
       System.out.println(attackerName + " just used Heal: Gain " + z + " hp!");
     }
-    if (number == 3){
+    if (skill.equals("SLASH")){
       sethp(target, gethp(target) - 10);
       System.out.println(attackerName + " just used Slash: 10 damage dealt to " + targetName + "!");
     }
+    if (gethp(target) < 0){
+        sethp(target, 0);
+      }
   }
       
   
@@ -242,7 +265,7 @@ public class NormalRPG{
         Block(enemy, player, EnemyName, PlayerName);
       }
       if (s.equals("SKILLS")){
-        Skills(player, enemy, PlayerName, EnemyName);
+        Skills(player, enemy);
       }
     }
   }
