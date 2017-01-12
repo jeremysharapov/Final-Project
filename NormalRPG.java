@@ -5,21 +5,28 @@ public class NormalRPG{
   private int[] Player;
   private int[] Slime;
   
-  public NormalRPG(){
-    Player = new int[5];
+  public NormalRPG(){Player = new int[10];
     setlvl(Player, 1);
     sethp(Player, 25);
+    setmaxhp(Player, 25);
+    setmp(Player, 7);
+    setmaxmp(Player, 7);
     setatk(Player, 6);
     setdef(Player, 2);
     setspd(Player, 3);
+    setskills(Player, 3);
     PlayerName = "You";
     
-    Slime = new int[5];
+    Slime = new int[10];
     setlvl(Slime, 1);
     sethp(Slime, 13);
+    setmaxhp(Slime, 13);
+    setmp(Slime, 0);
+    setmaxmp(Slime, 0);
     setatk(Slime, 5);
     setdef(Slime, 1);
     setspd(Slime, 2);
+    setskills(Slime, 0);
     EnemyName = "Slime";
   }
   
@@ -29,15 +36,28 @@ public class NormalRPG{
   public static int gethp(int[] a){
     return a[1];
   }
-  public int getattack(int[] a){
+  public static int getmp(int[] a){
     return a[2];
   }
-  public int getdef(int[] a){
+  public int getatk(int[] a){
     return a[3];
   }
-  public int getspd(int[] a){
+  public int getdef(int[] a){
     return a[4];
   }
+  public int getspd(int[] a){
+    return a[5];
+  }
+  public int getskills(int[] a){
+    return a[6];
+  }
+  public static int getmaxhp(int[] a){
+    return a[7];
+  }
+  public static int getmaxmp(int[] a){
+    return a[8];
+  }
+  
   
   public void setlvl(int[] a, int b){
     a[0] = b;
@@ -45,14 +65,26 @@ public class NormalRPG{
   public void sethp(int[] a, int b){
     a[1] = b;
   }
-  public void setatk(int[] a, int b){
+  public void setmp(int[] a, int b){
     a[2] = b;
   }
-  public void setdef(int[] a, int b){
+  public void setatk(int[] a, int b){
     a[3] = b;
   }
-  public void setspd(int[] a, int b){
+  public void setdef(int[] a, int b){
     a[4] = b;
+  }
+  public void setspd(int[] a, int b){
+    a[5] = b;
+  }
+  public void setskills(int[] a, int b){
+    a[6] = b;
+  }
+  public void setmaxhp(int[] a, int b){
+    a[7] = b;
+  }
+  public void setmaxmp(int[] a, int b){
+    a[8] = b;
   }
   
   public void Attack(int[] attacker, int[] target, String attackername, String targetname){
@@ -61,7 +93,7 @@ public class NormalRPG{
       System.out.println(attackername + " MISSED!");
     }
     if (c == 19){
-      int z = (int)(getattack(attacker) * 3) - (getdef(target));
+      int z = (int)(getatk(attacker) * 3) - (getdef(target));
       if (z < 0) {
         z = 0;
       }
@@ -72,7 +104,7 @@ public class NormalRPG{
       System.out.println(attackername + " just did a CRITICAL HIT: " + z + " damage dealt to " + targetname);
     }
     if (c > 0 && c < 19) {
-      int z = (int)(getattack(attacker) - (getdef(target)));
+      int z = (int)(getatk(attacker) - (getdef(target)));
       if (z < 0) {
         z = 0;
       }
@@ -84,11 +116,56 @@ public class NormalRPG{
     }
   }
   
-  public void Block(int[] attacker, int[] target){
-    int z = (int)(0.5 * (getattack(attacker) - getdef(target)));
+  public void Block(int[] attacker, int[] target, String attackerName, String targetName){
+    int z = (int)(0.5 * (getatk(attacker) - getdef(target)));
     sethp(target, gethp(target) - z);
-    System.out.println("Blocked: " + z + " damage dealt");
+    System.out.println(targetName + " blocked " + attackerName + ": " + z + " damage dealt!");
   }
+  
+  public void Skills(int[] attacker, int[] target, String attackerName, String targetName){
+    clearScreen();
+    if (getskills(attacker) == 0){
+      System.out.println("You seem to have forgotten how to use your skills.");
+    }
+    else{
+      System.out.println("  Your Skill Knowledge  ");
+      if (getskills(attacker) > 0){
+        System.out.println("[1] Fireball: Deal 15 fire dmg to enemy");
+        if (getskills(attacker) > 1){
+          System.out.println("[2] Heal: Heal 5% of your max mp");
+          if (getskills(attacker) > 2){
+            System.out.println("[3] Slash: Instantly deal 10 damage to the enemy, ignores defense and defensive traits (block included)");
+          }
+        }
+      }
+      System.out.println("\n Pick a skill number or press enter twice to go back to the fight menu.");
+      char s = getInput().charAt(0);
+      if (s < 10 && s >= 0) {
+        Skillattack(attacker, target, attackerName, targetName, s);
+      }
+    }
+  }
+        
+  
+  public void Skillattack(int[] attacker, int[] target, String attackerName, String targetName, char number){
+    if (number == 1){
+      sethp(target, gethp(target) - 15); //FOR NOW NO ONE HAS FIRE IMMUNITY SO THIS IS RAW DMG
+      System.out.println(attackerName + " just used Fireball: 15 fire dmg dealt to " + targetName + "!");
+    }
+    if (number == 2){
+      int z = (int)(getmaxhp(target) * 0.05);
+      sethp(attacker, gethp(attacker) + z);
+      if (gethp(attacker) > getmaxhp(attacker)) {
+        sethp(attacker, getmaxhp(attacker));
+      }
+      System.out.println(attackerName + " just used Heal: Gain " + z + " hp!");
+    }
+    if (number == 3){
+      sethp(target, gethp(target) - 10);
+      System.out.println(attackerName + " just used Slash: 10 damage dealt to " + targetName + "!");
+    }
+  }
+      
   
   private static void clearScreen(){
     System.out.print("\033[2J\033[;H");
@@ -130,6 +207,7 @@ public class NormalRPG{
   }
   
   private void Battle(int[] player, int[] enemy){
+    System.out.println("Something jumps out of the shadows...");
     System.out.println(PlayerName + " encountered " + EnemyName + "!");
     while (isDead(player) != true && isDead(enemy) != true){
       pressEnterToContinue();
@@ -161,7 +239,10 @@ public class NormalRPG{
         }
       }
       if (s.equals("BLOCK")){
-        Block(enemy, player);
+        Block(enemy, player, EnemyName, PlayerName);
+      }
+      if (s.equals("SKILLS")){
+        Skills(player, enemy, PlayerName, EnemyName);
       }
     }
   }
@@ -169,7 +250,7 @@ public class NormalRPG{
   public static void main(String[] args){
     NormalRPG r = new NormalRPG();
     clearScreen();
-    System.out.println("NormalRPG - Starting....Loading........Complete!");
+    System.out.println("NormalRPG - Starting. . . . . .Loading. . .. .. . ....Complete!");
     pressEnterToContinue();
     clearScreen();
     //Needs tutorial
