@@ -4,8 +4,11 @@ public class NormalRPG{
   private String EnemyName;
   private int[] Player;
   private int[] Slime;
+  private int PlayerClass;
+  private boolean CursedAmulet;
   
-  public NormalRPG(){Player = new int[10];
+  public NormalRPG(){
+    Player = new int[10];
     setlvl(Player, 1);
     sethp(Player, 25);
     setmaxhp(Player, 25);
@@ -16,6 +19,8 @@ public class NormalRPG{
     setspd(Player, 3);
     setskills(Player, 3);
     PlayerName = "You";
+    
+    boolean CursedAmulet = false;
     
     Slime = new int[10];
     setlvl(Slime, 1);
@@ -87,6 +92,10 @@ public class NormalRPG{
     a[8] = b;
   }
   
+  public void setCursedAmulet(boolean a){
+    CursedAmulet = a;
+  }
+  
   public void Attack(int[] attacker, int[] target, String attackername, String targetname){
     int c = (int)(Math.random() * 20);
     if (c == 0){
@@ -144,7 +153,7 @@ public class NormalRPG{
       }
       System.out.println("\n  What will you choose?\n" + x + "   [RETURN] to the fight menu");
       String s = (getInput()).toUpperCase();
-      if (getspd(player) < getspd(enemy)){
+      if (getspd(player) < getspd(enemy) && s.equals("RETURN") == false){
         Attack(enemy, player, EnemyName, PlayerName);
         if (isDead(player)){
           System.out.println(PlayerName + " WAS DEFEATED!");
@@ -154,7 +163,7 @@ public class NormalRPG{
           Attack(player, enemy, PlayerName, EnemyName);
         }
       }
-      else{
+      if (s.equals("RETURN") == false){
         Skillattack(Player, enemy, PlayerName, EnemyName, s);
         if (isDead(enemy)){
           System.out.println(EnemyName + " WAS DEFEATED!");
@@ -170,23 +179,29 @@ public class NormalRPG{
   public void Skillattack(int[] attacker, int[] target, String attackerName, String targetName, String skill){
     if (skill.equals("FIREBALL")){
       sethp(target, gethp(target) - 15); //FOR NOW NO ONE HAS FIRE IMMUNITY SO THIS IS RAW DMG
+      setmp(attacker, getmp(attacker) - 1);
       System.out.println(attackerName + " just used Fireball: 15 fire dmg dealt to " + targetName + "!");
     }
     if (skill.equals("HEAL")){
       int z = (int)(getmaxhp(target) * 1.05);
       sethp(attacker, gethp(attacker) + z);
-      if (gethp(attacker) > getmaxhp(attacker)) {
-        sethp(attacker, getmaxhp(attacker));
-      }
+      setmp(attacker, getmp(attacker) - 1);
       System.out.println(attackerName + " just used Heal: Gain " + z + " hp!");
     }
     if (skill.equals("SLASH")){
       sethp(target, gethp(target) - 10);
+      setmp(attacker, getmp(attacker) - 1);
       System.out.println(attackerName + " just used Slash: 10 damage dealt to " + targetName + "!");
     }
     if (gethp(target) < 0){
         sethp(target, 0);
       }
+    if (getmp(attacker) < 0){
+      setmp(target, 0);
+    }
+    if (gethp(attacker) > getmaxhp(attacker)) {
+      sethp(attacker, getmaxhp(attacker));
+    }
   }
       
   
@@ -225,8 +240,11 @@ public class NormalRPG{
       setdef(Player, 3);
       setspd(Player, 3);
       PlayerName = "{Demo}You";
+      PlayerClass = 0;
       System.out.println("You are now a Demo");
     }
+    pressEnterToContinue();
+    clearScreen();
   }
   
   private void Battle(int[] player, int[] enemy){
@@ -235,8 +253,10 @@ public class NormalRPG{
     while (isDead(player) != true && isDead(enemy) != true){
       pressEnterToContinue();
       clearScreen();
-      System.out.println(PlayerName + "r hp is " + gethp(player));
-      System.out.println(EnemyName + "'s hp is " + gethp(enemy));
+      System.out.println(PlayerName + "(lv." + getlvl(player) + ")");
+      System.out.println("        HP is at " + gethp(player) + "/" + getmaxhp(player) + "       MP is at " + getmp(player) + "/" + getmaxmp(player));
+      System.out.println(EnemyName + "(lv." + getlvl(enemy) + ")");
+      System.out.println("        HP is at " + gethp(enemy) + "/" + getmaxhp(enemy) + "       MP is at " + getmp(enemy) + "/" + getmaxmp(enemy));
       System.out.println("\n     What will you do?\n  [ATTACK]        [BLOCK]\n  [SKILLS]        [ITEMS]\n  [ANALYZE]       [FLEE]");
       String s = (getInput()).toUpperCase();
       if (s.equals("ATTACK")){
@@ -270,6 +290,39 @@ public class NormalRPG{
     }
   }
   
+  private void LongaForestCutScene(){
+    pressEnterToContinue();
+    clearScreen();
+    setCursedAmulet(true);
+    System.out.println("You search the area for clues.");
+    System.out.println(".....!");
+    pressEnterToContinue();
+    System.out.println("You found a Cursed Amulet!\nIt seems as though it's already been used on something...");
+    pressEnterToContinue();
+    System.out.println("You carefully put it into your bag before heading to Longa Town.\nBehind you the forest slowly blocks the path with plantgrowth...");
+    pressEnterToContinue();
+    clearScreen();
+  }
+  
+  private void DeadCutScene(){
+    clearScreen();
+    System.out.println("You passed out.");
+    pressEnterToContinue();
+    System.out.println("...Ho ho~! Looks like you're finally awake!");
+    pressEnterToContinue();
+    System.out.println("You look around to find yourself in the Healer's Room.");
+    pressEnterToContinue();
+    System.out.println("Jaryl happened to catch the last bit of your scuffle with that creature...");
+    System.out.println("He gave them a nice, long beating, ho ho~! Best thank him later when you can.");
+    pressEnterToContinue();
+    System.out.println("Well, you're free to go whenever.");
+    System.out.println("Just don't let Maria see you, else she might make you do another checkup, ho ho~!");
+    pressEnterToContinue();
+    System.out.println("...Though I wouldn't mind checking her up, hoo!");
+    System.out.println("The Mayor jubilantly strolls out of the room, leaving you alone.");
+    pressEnterToContinue();
+  }
+  
   public static void main(String[] args){
     NormalRPG r = new NormalRPG();
     clearScreen();
@@ -280,18 +333,23 @@ public class NormalRPG{
     System.out.println("You wake up in the middle of the Longa Fruit Forest. You feel very weak...best you head to town.");
     System.out.println("[STAY] and search for clues or [GO] to Longa Town?");
     String s = (getInput()).toUpperCase();
-    if (s.equals("GO") || s.equals("STAY")){
-      r.Battle(r.Player, r.Slime);
-      if (isDead(r.Player)){
-        System.out.println("You have died.");
-      }
-      else {
-        clearScreen();
-        System.out.println("Congratulations! You have leveled up!\nYou are now level 2");
-        pressEnterToContinue();
-        r.ChooseYourClass();
-      }
+    r.Battle(r.Player, r.Slime);
+    if (isDead(r.Player)){
+      r.DeadCutScene();
     }
+    else {
+      clearScreen();
+      System.out.println("Congratulations! You have leveled up!\nYou are now level 2");
+      pressEnterToContinue();
+      r.ChooseYourClass(); 
+      if (s.equals("STAY")){
+        r.LongaForestCutScene();
+      }
+      System.out.println("You have arrived in Longa Town!");
+      System.out.println("Citizens greet you as you walk by; the sounds of happy children and a lively crowd fill the air.");
+      System.out.println("You are filled with joy.");
+    }
+    System.out.println("Where to now?\n  [Healer's Room]\n  [Mayor's House]\n  [Adeventurer's Guild]\n  [Alchemist's Shop]\n  [Blacksmith's Shop]\n [Gate Entrance]");
   }
 }
 
