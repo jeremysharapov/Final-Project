@@ -1,13 +1,18 @@
 import java.util.*;
 public class NormalRPG{
+//----------------------------------------------------Variables---------------------------------------------------------
   private String PlayerName;
   private String EnemyName;
+  
   private int[] Player;
   private int[] Slime;
+  
   private int PlayerClass;
+  
   private boolean CursedAmulet;
   private boolean TravelerGuide;
   
+//--------------------------------------------------Initialization------------------------------------------------------
   public NormalRPG(){
     Player = new int[10];
     setlvl(Player, 1);
@@ -37,6 +42,7 @@ public class NormalRPG{
     EnemyName = "Slime";
   }
   
+//---------------------------------------------------Accessors----------------------------------------------------------
   public int getlvl(int[] a){
     return a[0];
   }
@@ -65,7 +71,7 @@ public class NormalRPG{
     return a[8];
   }
   
-  
+//----------------------------------------------------Mutators----------------------------------------------------------
   public void setlvl(int[] a, int b){
     a[0] = b;
   }
@@ -94,13 +100,24 @@ public class NormalRPG{
     a[8] = b;
   }
   
+//-------------------------------------------Boolean mutators and methods-----------------------------------------------
   public void setCursedAmulet(boolean a){
     CursedAmulet = a;
   }
+  
   public void setTravelerGuide (boolean a){
     TravelerGuide = a;
+  }  
+  
+  private static boolean isDead(int[] unit){
+    boolean D = false;
+    if (gethp(unit) == 0){
+      D = true;
+    }
+    return D;
   }
   
+//-----------------------------------------------Battle method options--------------------------------------------------
   public void Attack(int[] attacker, int[] target, String attackername, String targetname){
     int c = (int)(Math.random() * 20);
     if (c == 0){
@@ -208,32 +225,8 @@ public class NormalRPG{
       sethp(attacker, getmaxhp(attacker));
     }
   }
-      
-  
-  private static void clearScreen(){
-    System.out.print("\033[2J\033[;H");
-  }
-  
-  private static void pressEnterToContinue(){ 
-    System.out.println("Press enter to continue...");
-    Scanner scanner = new Scanner(System.in);
-    String S = scanner.nextLine();
-  }
-  
-  private static String getInput() {
-    Scanner scanner = new Scanner(System.in);
-    String S = scanner.nextLine(); 
-    return S;
-  }
-  
-  private static boolean isDead(int[] unit){
-    boolean D = false;
-    if (gethp(unit) == 0){
-      D = true;
-    }
-    return D;
-  }
-  
+
+//-----------------------------------------Main methods, while loops, etc----------------------------------------------- 
   private void ChooseYourClass(){
     clearScreen();
     System.out.println("Choose your class:\n  [Demo]");
@@ -310,6 +303,7 @@ public class NormalRPG{
     }
   }
   
+//---------------------------------------Cut Scenes(and Quest Item Get!)------------------------------------------------
   private void LongaForestCutScene(){
     clearScreen();
     setCursedAmulet(true);
@@ -361,18 +355,33 @@ public class NormalRPG{
     System.out.println("Mayor: Well, you're free to go whenever.");
     System.out.println("Mayor: Just don't let Maria see you, else she might make you do another checkup, ho ho~!");
     pressEnterToContinue();
-    System.out.println("Mayor: ...Though I wouldn't mind checking her up, hoo!");
+    System.out.println("Mayor: ...Though I personally wouldn't mind checking her up, hoo!");
     System.out.println("The Mayor jubilantly strolls out of the room, leaving you alone.");
     pressEnterToContinue();
   }
   
+//------------------------------------------------Scanner shtuff--------------------------------------------------------
+  private static void clearScreen(){
+    System.out.print("\033[2J\033[;H");
+  }
+  private static void pressEnterToContinue(){ 
+    System.out.println("Press enter to continue...");
+    Scanner scanner = new Scanner(System.in);
+    String S = scanner.nextLine();
+  }
+  private static String getInput() {
+    Scanner scanner = new Scanner(System.in);
+    String S = scanner.nextLine(); 
+    return S;
+  }
+  
+//--------------------------------------------Actual Game(aka the main)-------------------------------------------------
   public static void main(String[] args){
     NormalRPG r = new NormalRPG();
     clearScreen();
     System.out.println("NormalRPG - Starting. . . . . .Loading. . .. .. . ....Complete!");
     pressEnterToContinue();
     clearScreen();
-    //Needs tutorial
     System.out.println("You wake up in the middle of the Longa Fruit Forest. You feel very weak...best you head to town.");
     System.out.println("[STAY] and search for clues or [GO] to Longa Town?");
     System.out.println("Hint: Choose the option you want in the [] and type it out (uppercase not necessary, but spelling is). Press enter after to input your command)");
