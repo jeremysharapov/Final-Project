@@ -6,6 +6,7 @@ public class NormalRPG{
   private int[] Slime;
   private int PlayerClass;
   private boolean CursedAmulet;
+  private boolean TravelerGuide;
   
   public NormalRPG(){
     Player = new int[10];
@@ -21,6 +22,7 @@ public class NormalRPG{
     PlayerName = "You";
     
     boolean CursedAmulet = false;
+    boolean TravelerGuide = false;
     
     Slime = new int[10];
     setlvl(Slime, 1);
@@ -94,6 +96,9 @@ public class NormalRPG{
   
   public void setCursedAmulet(boolean a){
     CursedAmulet = a;
+  }
+  public void setTravelerGuide (boolean a){
+    TravelerGuide = a;
   }
   
   public void Attack(int[] attacker, int[] target, String attackername, String targetname){
@@ -244,7 +249,6 @@ public class NormalRPG{
       System.out.println("You are now a Demo");
     }
     pressEnterToContinue();
-    clearScreen();
   }
   
   private void Battle(int[] player, int[] enemy){
@@ -290,8 +294,23 @@ public class NormalRPG{
     }
   }
   
+  private void LongaTown(){
+    boolean leave = false;
+    while (leave != true){
+      pressEnterToContinue();
+      clearScreen();
+      System.out.println("Where to now?\n  [HEALING] Hospital\n  [LONGA] Office\n  [GATE] Entrance\n  [LOOK] around the town\n  [EXAMINE] the Traveler's Guide\n  [LEAVE] Longa Town"); 
+      String s = (getInput()).toUpperCase();
+      if (s.equals("LOOK")){
+        LongaTownCutScene();
+      }
+      if (s.equals("LEAVE")){
+        leave = true;
+      }
+    }
+  }
+  
   private void LongaForestCutScene(){
-    pressEnterToContinue();
     clearScreen();
     setCursedAmulet(true);
     System.out.println("You search the area for clues.");
@@ -301,24 +320,48 @@ public class NormalRPG{
     pressEnterToContinue();
     System.out.println("You carefully put it into your bag before heading to Longa Town.\nBehind you the forest slowly blocks the path with plantgrowth...");
     pressEnterToContinue();
+  }
+  
+  private void LongaTownCutScene(){
     clearScreen();
+    if (TravelerGuide == false){
+      setTravelerGuide(true);
+      System.out.println("You search the area for anything.");
+      System.out.println(".....!");
+      pressEnterToContinue();
+      System.out.println("You found a Traveler Guide!\nA quick glance reveals that it's chock full of very useful information!");
+      pressEnterToContinue();
+      System.out.println("You put it in the front pocket of your bag before continuing to look around.");
+      pressEnterToContinue();
+      clearScreen();
+    }
+    System.out.println("The town is brimming with a myraid of sights, smells, and sounds.");
+    System.out.println("To the North is a giant Longa Eternal-Blossom tree, its flowers a cosmic cloud of blues, purples, and pinks.");
+    pressEnterToContinue();
+    System.out.println("To the West is a magnificent marble fountain, carved to resemble the Longa Goddess, and from her hands flows pure, crystal water.");
+    System.out.println("The Longa Office is right behind it.");
+    pressEnterToContinue();
+    System.out.println("To the East is Residential District. Clothes of a rainbow of colors stream across the sky.");
+    System.out.println("Further down the street you see the Healing Hospital.");
+    pressEnterToContinue();
+    System.out.println("To the South lies the Gate Entrance to Longa Town. It stands tall and strong, a large stone guardian overseeing all who come in.");
   }
   
   private void DeadCutScene(){
     clearScreen();
     System.out.println("You passed out.");
     pressEnterToContinue();
-    System.out.println("...Ho ho~! Looks like you're finally awake!");
+    System.out.println("???: ...Ho ho~! Looks like you're finally awake!");
     pressEnterToContinue();
-    System.out.println("You look around to find yourself in the Healer's Room.");
+    System.out.println("You look around to find yourself in the Healer's Room. In front of you stands the Mayor of Longa Town.");
     pressEnterToContinue();
-    System.out.println("Jaryl happened to catch the last bit of your scuffle with that creature...");
-    System.out.println("He gave them a nice, long beating, ho ho~! Best thank him later when you can.");
+    System.out.println("Mayor: Jaryl happened to catch the last bit of your scuffle with that creature...");
+    System.out.println("Mayor: He gave them a nice, long beating, ho ho~! Best thank him later when you can.");
     pressEnterToContinue();
-    System.out.println("Well, you're free to go whenever.");
-    System.out.println("Just don't let Maria see you, else she might make you do another checkup, ho ho~!");
+    System.out.println("Mayor: Well, you're free to go whenever.");
+    System.out.println("Mayor: Just don't let Maria see you, else she might make you do another checkup, ho ho~!");
     pressEnterToContinue();
-    System.out.println("...Though I wouldn't mind checking her up, hoo!");
+    System.out.println("Mayor: ...Though I wouldn't mind checking her up, hoo!");
     System.out.println("The Mayor jubilantly strolls out of the room, leaving you alone.");
     pressEnterToContinue();
   }
@@ -332,6 +375,7 @@ public class NormalRPG{
     //Needs tutorial
     System.out.println("You wake up in the middle of the Longa Fruit Forest. You feel very weak...best you head to town.");
     System.out.println("[STAY] and search for clues or [GO] to Longa Town?");
+    System.out.println("Hint: Choose the option you want in the [] and type it out (uppercase not necessary, but spelling is). Press enter after to input your command)");
     String s = (getInput()).toUpperCase();
     r.Battle(r.Player, r.Slime);
     if (isDead(r.Player)){
@@ -345,11 +389,15 @@ public class NormalRPG{
       if (s.equals("STAY")){
         r.LongaForestCutScene();
       }
+      clearScreen();
+      System.out.println("Now traveling to Longa Town. . . . . .Loading. . .. .. . ....Complete!");
+      pressEnterToContinue();
+      clearScreen();
       System.out.println("You have arrived in Longa Town!");
       System.out.println("Citizens greet you as you walk by; the sounds of happy children and a lively crowd fill the air.");
       System.out.println("You are filled with joy.");
     }
-    System.out.println("Where to now?\n  [Healer's Room]\n  [Mayor's House]\n  [Adeventurer's Guild]\n  [Alchemist's Shop]\n  [Blacksmith's Shop]\n [Gate Entrance]");
+    r.LongaTown();
   }
 }
 
