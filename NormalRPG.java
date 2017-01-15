@@ -9,7 +9,7 @@ public class NormalRPG{
   
   private int PlayerClass;
   
-  private boolean CursedAmulet;
+  private boolean MageBrooch;
   private boolean TravelerGuide;
   
 //--------------------------------------------------Initialization------------------------------------------------------
@@ -101,8 +101,8 @@ public class NormalRPG{
   }
   
 //-------------------------------------------Boolean mutators and methods-----------------------------------------------
-  public void setCursedAmulet(boolean a){
-    CursedAmulet = a;
+  public void setMageBrooch(boolean a){
+    MageBrooch = a;
   }
   
   public void setTravelerGuide (boolean a){
@@ -202,18 +202,18 @@ public class NormalRPG{
     if (skill.equals("FIREBALL")){
       sethp(target, gethp(target) - 15); //FOR NOW NO ONE HAS FIRE IMMUNITY SO THIS IS RAW DMG
       setmp(attacker, getmp(attacker) - 1);
-      System.out.println(attackerName + " just used Fireball: 15 fire dmg dealt to " + targetName + "!");
+      System.out.println(attackerName + " just used [Fireball]: 15 fire dmg dealt to " + targetName + "!");
     }
     if (skill.equals("HEAL")){
       int z = (int)(getmaxhp(target) * 1.05);
       sethp(attacker, gethp(attacker) + z);
       setmp(attacker, getmp(attacker) - 1);
-      System.out.println(attackerName + " just used Heal: Gain " + z + " hp!");
+      System.out.println(attackerName + " just used [Heal]: Gain " + z + " hp!");
     }
     if (skill.equals("SLASH")){
       sethp(target, gethp(target) - 10);
       setmp(attacker, getmp(attacker) - 1);
-      System.out.println(attackerName + " just used Slash: 10 damage dealt to " + targetName + "!");
+      System.out.println(attackerName + " just used [Slash]: 10 damage dealt to " + targetName + "!");
     }
     if (gethp(target) < 0){
         sethp(target, 0);
@@ -245,9 +245,10 @@ public class NormalRPG{
   }
   
   private void Battle(int[] player, int[] enemy){
+    boolean flee = false;
     System.out.println("Something jumps out of the shadows...");
     System.out.println(PlayerName + " encountered " + EnemyName + "!");
-    while (isDead(player) != true && isDead(enemy) != true){
+    while (isDead(player) != true && isDead(enemy) != true && flee != true){
       pressEnterToContinue();
       clearScreen();
       System.out.println(PlayerName + "(lv." + getlvl(player) + ")");
@@ -284,6 +285,9 @@ public class NormalRPG{
       if (s.equals("SKILLS")){
         Skills(player, enemy);
       }
+      if (s.equals("FLEE")){
+        flee = true;
+      }
     }
   }
   
@@ -294,6 +298,9 @@ public class NormalRPG{
       clearScreen();
       System.out.println("Where to now?\n  [HEALING] Hospital\n  [LONGA] Office\n  [GATE] Entrance\n  [LOOK] around the town\n  [EXAMINE] the Traveler's Guide\n  [LEAVE] Longa Town"); 
       String s = (getInput()).toUpperCase();
+      if (s.equals("HEALING")){
+        Hospital();
+      }
       if (s.equals("LOOK")){
         LongaTownCutScene();
       }
@@ -303,14 +310,61 @@ public class NormalRPG{
     }
   }
   
-//---------------------------------------Cut Scenes(and Quest Item Get!)------------------------------------------------
-  private void LongaForestCutScene(){
+  private void Hospital(){
     clearScreen();
-    setCursedAmulet(true);
+    System.out.println("You enter the Healing Hospital. A woman sits at a desk reading a medical book.");
+    boolean leave = false;
+    while (leave != true){
+      pressEnterToContinue();
+      clearScreen();
+      System.out.println("What will you do?\n  [TALK] to the woman\n  [ENTER] the Healing Room\n  [LEAVE]");
+      String s = (getInput()).toUpperCase();
+      if (s.equals("TALK")){
+        mariaCheckup();
+      }
+      if (s.equals("ENTER")){
+        LongaHealingRoomCutScene();
+      }
+      if (s.equals("LEAVE")){
+        leave = true;
+      }
+    }
+  }
+  private void mariaCheckup(){
+    clearScreen();
+    boolean leave = false;
+    System.out.println("As you approach the woman she suddenly looks up. On her chest is a nametag that reads Maria.");
+    System.out.println("\nMaria: Hiya! Want me to give ya a checkup?");
+    pressEnterToContinue();
+    System.out.println("Maria: I insist. It's fast and easy and won't cost ya a penny.");
+    System.out.println("Maria: Plus I'll heal ya if I find anything wrong for free, doctor's promise.");
+    while (leave != true){
+      pressEnterToContinue();
+      clearScreen();
+      System.out.println("Maria: So what'll it be?\n  [CHECKUP]\n  [LEAVE]");
+      String s = (getInput()).toUpperCase();
+      if (s.equals("CHECKUP")){
+        CheckupCutScene();
+      }
+      if (s.equals("LEAVE")){
+        leave = true;
+      }
+    }
+    System.out.println("Maria: Seeya around!");
+  }
+  
+  
+    
+      
+          
+//---------------------------------------Cut Scenes(and Quest Item Get!)------------------------------------------------
+  private void LongaOutskirtsCutScene(){
+    clearScreen();
+    setMageBrooch(true);
     System.out.println("You search the area for clues.");
     System.out.println(".....!");
     pressEnterToContinue();
-    System.out.println("You found a Cursed Amulet!\nIt seems as though it's already been used on something...");
+    System.out.println("You found a Mage Brooch!\nYou turn it over to find a partially scratched off name: Tol...e F...ryn");
     pressEnterToContinue();
     System.out.println("You carefully put it into your bag before heading to Longa Town.\nBehind you the forest slowly blocks the path with plantgrowth...");
     pressEnterToContinue();
@@ -345,19 +399,57 @@ public class NormalRPG{
     clearScreen();
     System.out.println("You passed out.");
     pressEnterToContinue();
+    sethp(Player, getmaxhp(Player));
+    setmp(Player, getmaxmp(Player));
     System.out.println("???: ...Ho ho~! Looks like you're finally awake!");
     pressEnterToContinue();
-    System.out.println("You look around to find yourself in the Healer's Room. In front of you stands the Mayor of Longa Town.");
+    System.out.println("You look around to find yourself in the Healing Room. In front of you stands the Mayor of Longa Town.");
     pressEnterToContinue();
     System.out.println("Mayor: Jaryl happened to catch the last bit of your scuffle with that creature...");
-    System.out.println("Mayor: He gave them a nice, long beating, ho ho~! Best thank him later when you can.");
+    System.out.println("Mayor: He gave them a good ol' beating, ho ho~! Best thank him later when you can.");
     pressEnterToContinue();
     System.out.println("Mayor: Well, you're free to go whenever.");
     System.out.println("Mayor: Just don't let Maria see you, else she might make you do another checkup, ho ho~!");
     pressEnterToContinue();
     System.out.println("Mayor: ...Though I personally wouldn't mind checking her up, hoo!");
-    System.out.println("The Mayor jubilantly strolls out of the room, leaving you alone.");
+    System.out.println("\nThe Mayor jubilantly strolls out of the room, leaving you alone.");
+  }
+  
+  private void CheckupCutScene(){
+    clearScreen();
+    System.out.println("She gets up from her desk and guides you to a chair nearby. She then casts [Analyze] on you.");
+    System.out.println("\nMaria: Alrighty let's see here...");
     pressEnterToContinue();
+    if (gethp(Player) < getmaxhp(Player) || getmp(Player) < getmaxmp(Player)){
+      System.out.println("Maria: Looks like you're a bit under the weather, buddy. Don't worry I'll heal ya in a jiffy.");
+      pressEnterToContinue();
+      System.out.println("You feel yourself being filled with energy as Maria casts [Ultimate Heal] on you.");
+      sethp(Player, getmaxhp(Player));
+      setmp(Player, getmaxmp(Player));
+      System.out.println("    ~HP maxed! MP maxed!~");
+      System.out.println("\nMaria: There ya go, now you're fit as a fiddle!");
+      pressEnterToContinue();
+      System.out.println("She gives you a slap on the back, before moving back to her desk.");
+    }
+    else {
+      System.out.println("Maria: Search showed a negative in injuries, soldier. Looks like I'm gonna hafta give ya a clean bill of health!");
+      pressEnterToContinue();
+      System.out.println("She grins at you before giving you a slap on the back");
+      System.out.println("\nMaria: Good job keeping yourself safe out there. Now let's hope ya stay that way buddy.");
+      pressEnterToContinue();
+      System.out.println("She moves back to her desk");
+    }
+    System.out.println("\nMaria: Let me know if you need anything else, ok?");
+  }
+  
+  private void LongaHealingRoomCutScene(){
+    clearScreen();
+    System.out.println("You enter the Healing Room.");
+    pressEnterToContinue();
+    System.out.println("Inside you see cabinets filled with pills and herbs. By the windows are two adjustable beds.");
+    System.out.println("It smells like disinfectants and rubbing alcohol.");
+    pressEnterToContinue();
+    System.out.println("You find nothing of interest here so you go back to the previous room.");
   }
   
 //------------------------------------------------Scanner shtuff--------------------------------------------------------
@@ -382,9 +474,9 @@ public class NormalRPG{
     System.out.println("NormalRPG - Starting. . . . . .Loading. . .. .. . ....Complete!");
     pressEnterToContinue();
     clearScreen();
-    System.out.println("You wake up in the middle of the Longa Fruit Forest. You feel very weak...best you head to town.");
+    System.out.println("You wake up in the outskirts of the Longa Fruit Forest. You feel very weak...best you head to town.");
     System.out.println("[STAY] and search for clues or [GO] to Longa Town?");
-    System.out.println("Hint: Choose the option you want in the [] and type it out (uppercase not necessary, but spelling is). Press enter after to input your command)");
+    System.out.println("\n  Hint: Choose the option you want in the [] and type it out (uppercase is not necessary, but spelling is). Press enter after to input your command");
     String s = (getInput()).toUpperCase();
     r.Battle(r.Player, r.Slime);
     if (isDead(r.Player)){
@@ -396,7 +488,7 @@ public class NormalRPG{
       pressEnterToContinue();
       r.ChooseYourClass(); 
       if (s.equals("STAY")){
-        r.LongaForestCutScene();
+        r.LongaOutskirtsCutScene();
       }
       clearScreen();
       System.out.println("Now traveling to Longa Town. . . . . .Loading. . .. .. . ....Complete!");
