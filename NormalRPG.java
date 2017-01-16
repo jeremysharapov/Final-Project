@@ -298,6 +298,49 @@ public class NormalRPG{
     }
   }
   
+  private void Map(){
+    boolean leave = false;
+    while (leave != true){
+      pressEnterToContinue();
+      clearScreen();
+      System.out.println("Where to now?\n  Longa Fruit Forest [OUTSKIRTS]\n  Longa Fruit Forest [ROAD]\n  Longa [TOWN]\n  [EXIT] the Game"); 
+      String s = (getInput()).toUpperCase();
+      if (s.equals("OUTSKIRTS")){
+        LongaOutskirts();
+      }
+      if (s.equals("TOWN")){
+        LongaTown();
+      }
+      if (s.equals("EXIT")){
+        leave = true;
+      }
+    }
+  }
+  
+  private void LongaOutskirts(){
+    clearScreen();
+    System.out.println("Now traveling to Longa Forest. . . . . .Loading. . .. .. . ....Complete!");
+    pressEnterToContinue();
+    clearScreen();
+    System.out.println("You have arrived at the Longa Fruit Forest Outskirts!");
+    System.out.println("The forest is eerily silent.");
+    System.out.println("You are filled with trepidation.");
+    boolean leave = false;
+    while (leave != true){
+      pressEnterToContinue();
+      clearScreen();
+      System.out.println("What will you do?\n  [SEARCH] for clues\n  [LEAVE]");
+      String s = (getInput()).toUpperCase();
+      if (s.equals("SEARCH")){
+        LongaOutskirtsCutScene();
+      }
+      if (s.equals("LEAVE")){
+        leave = true;
+      }
+    }
+    Battle(Player, Slime);
+  }
+  
   private void LongaTown(){
     clearScreen();
     System.out.println("Now traveling to Longa Town. . . . . .Loading. . .. .. . ....Complete!");
@@ -317,6 +360,9 @@ public class NormalRPG{
       }
       if (s.equals("LONGA")){
         LongaOffice();
+      }
+      if (s.equals("GATE")){
+        GateEntrance();
       }
       if (s.equals("LOOK")){
         LongaTownCutScene();
@@ -411,48 +457,50 @@ public class NormalRPG{
     }
     System.out.println("Mayor: Farewell youngster!");
   }
-  
-  private void Map(){
-    boolean leave = false;
-    while (leave != true){
-      pressEnterToContinue();
-      clearScreen();
-      System.out.println("Where to now?\n  Longa Fruit Forest [OUTSKIRTS]\n  Longa Fruit Forest [ROAD]\n  Longa [TOWN]\n [EXIT] the Game"); 
-      String s = (getInput()).toUpperCase();
-      if (s.equals("OUTSKIRTS")){
-        LongaOutskirts();
-      }
-      if (s.equals("TOWN")){
-        LongaTown();
-      }
-      if (s.equals("EXIT")){
-        leave = true;
+    
+  private void GateEntrance(){
+    clearScreen();
+    if (QuestCount >= 2){
+      System.out.println("You approach the Gate Entrance. Jaryl leans against one side of the stone archway focussed on something in his hands.");
+      boolean leave = false;
+      while (leave != true){
+        pressEnterToContinue();
+        clearScreen();
+        System.out.println("What will you do?\n  [TALK] to Jaryl\n  [LEAVE]");
+        String s = (getInput()).toUpperCase();
+        if (s.equals("TALK")){
+          JarylTalk();
+          leave = true;
+        }
+        if (s.equals("LEAVE")){
+          leave = true;
+        }
       }
     }
+    else {
+      System.out.println("You approach the Gate Entrance. You don't see anyone nearby.");
+    }
   }
-    
-  private void LongaOutskirts(){
+  
+  private void JarylTalk(){
     clearScreen();
-    System.out.println("Now traveling to Longa Forest. . . . . .Loading. . .. .. . ....Complete!");
-    pressEnterToContinue();
-    clearScreen();
-    System.out.println("You have arrived at the Longa Fruit Forest Outskirts!");
-    System.out.println("The forest is eerily silent.");
-    System.out.println("You are filled with trepidation.");
     boolean leave = false;
+    System.out.println("As you approach the man you notice him sharpening a small dagger.");
+    System.out.println("He sees you and puts his items away, before standing up from his slouch.");
     while (leave != true){
       pressEnterToContinue();
       clearScreen();
-      System.out.println("What will you do?\n  [SEARCH] for clues\n  [LEAVE]");
+      System.out.println("Jaryl: Hello, what is it that you need?\n  [JOIN] the search party\n  [LEAVE]");
       String s = (getInput()).toUpperCase();
-      if (s.equals("SEARCH")){
-        LongaOutskirtsCutScene();
+      if (s.equals("JOIN")){
+        JoinSearchPartyCutScene();
+        leave = true;
       }
       if (s.equals("LEAVE")){
         leave = true;
+        System.out.println("Jaryl: I see, stay safe out there.");
       }
     }
-    Battle(Player, Slime);
   }
     
   
@@ -555,7 +603,8 @@ public class NormalRPG{
   private void QuestCutScene(){
     clearScreen();
     if ((MageBrooch == false && QuestCount == 1) ||
-        (MageBrooch == true && QuestCount == 2)){
+        (MageBrooch == true  && QuestCount == 2) ||
+                               (QuestCount == 3)){
       String x = "";
       if (QuestCount == 1){
         x += "search the Longa Outskirts for Toliare.";
@@ -563,8 +612,12 @@ public class NormalRPG{
       if (QuestCount == 2){
         x += "meet Jaryl at the Gate Entrance to go find Toliare.";
       }
-      System.out.println("Mayor: Still not done with your Quest?");
+      if (QuestCount == 3){
+        x += "meet Jaryl at the Longa Fruit Forest Road to go find Toliare! (Warning: Prepare for battle)";
+      }
+      System.out.println("Mayor: Ho ho~ welcome back, Adventurer, did you forget your Quest?");
       System.out.println("Mayor: Don't forget, your objective is to " + x);
+      System.out.println("Mayor: Good luck!");
     }
     if (MageBrooch == false && QuestCount == 0){
       System.out.println("Mayor: Ho ho~, I sense an adventurer here! Only folks like you ask a town's head if they've got any Quests!");
@@ -575,7 +628,7 @@ public class NormalRPG{
       pressEnterToContinue();
       System.out.println("He frowns, eyes pinched with worry.");
       System.out.println("\nMayor: Unfortunately she hasn't come back yet. I was about to ask Jaryl to go look for her actually.");
-      System.out.println("Mayor: But now that you're here it's best for you to go eh? Can't leave the Gate's unprotected for too long after all.");
+      System.out.println("Mayor: But now that you're here it's best for you to go eh? Can't leave the Gate unprotected for too long after all.");
       pressEnterToContinue();
       System.out.println("Mayor: Besides, that close to the border of the forest there's only slimes.");
       System.out.println("Mayor: Good luck youngster.");
@@ -587,26 +640,28 @@ public class NormalRPG{
     }
     if (MageBrooch == true && QuestCount == 1){
       System.out.println("  ~Story Quest: Longa Outskirts CLEAR!~");
-      System.out.println("You carefully pull out the Mage Brooch from your bag and show it to the Mayor.");
+      System.out.println("\nYou carefully pull out the Mage Brooch from your bag and show it to the Mayor.");
       System.out.println("\nMayor: Oh no that's...");
       pressEnterToContinue();
       System.out.println("He grabs an orange crystal on his table and shouts at it");
       System.out.println("\nMayor: Jaryl, I need you immediately!");
       pressEnterToContinue();
-      System.out.println("It flashes briefly, and suddenly Jaryl is climbing through the large window in the office.");
-      System.out.println("\nJaryl: What is it Mayor?");
-      System.out.println("\nMayor: The youngster here found this in the forest outskirts.");
+      System.out.println("It flashes briefly, and suddenly a man climbs through the large window in the office.");
+      System.out.println("\n???: What is it, Mayor?");
+      System.out.println("\nMayor: Jaryl, the youngster here found this in the forest outskirts.");
       pressEnterToContinue();
+      clearScreen();
       System.out.println("Jaryl takes the Mage Brooch, turning it over to see the name on the back. His eyes widen before he suddenly closes them.");
-      System.out.println("  A foreign magic fills the air for a brief moment.");
+      System.out.println("  ~A foreign magic fills the air for a brief moment~");
       pressEnterToContinue();
-      System.out.println("\nJaryl: This is Toliare's alright. I sensed another's magic clinging to this Brooch though. I fear it belongs to whatever took her.");
+      System.out.println("Jaryl: This is Toliare's alright. I sensed another's magic clinging to this Brooch though. I fear it belongs to whatever took her.");
       System.out.println("\nMayor: Something? Not someone?");
       System.out.println("\nJaryl: I've been feeling an abnormal amount of magic gathered in the heart of the mountains recently. It hasn't moved much so I haven't sought it out yet but...");
       pressEnterToContinue();
       System.out.println("Mayor: ...Is it sentinent?");
       System.out.println("\nJaryl: Something with that much magic almost certainly will be.");
       pressEnterToContinue();
+      clearScreen();
       System.out.println("Mayor: What could it possibly want with Toliare?");
       System.out.println("\nJaryl: I wouldn't know, but it's best we rescue her immediately. I'll go prepare, please gather anyone else capable to help and send them to the Gate Entrance, Mayor.");
       System.out.println("\nJaryl leaves through the window. The Mayor then turns to you.");
@@ -621,6 +676,22 @@ public class NormalRPG{
       System.out.println("\nObjective: Meet Jaryl at the Gate Entrance to go find Toliare!");
       setQuestCount(2);
     }
+  }
+  
+  private void JoinSearchPartyCutScene(){
+    clearScreen();
+    System.out.println("  ~Story Quest: Join Jaryl's Search Party CLEAR!~");
+    System.out.println("\nJaryl: So the Mayor told you to help me? Be careful out there, some of those creatures are fast. Stay near me at all times just in case.");
+    pressEnterToContinue();
+    System.out.println("Jaryl: Did he ask anyone else to come?");
+    pressEnterToContinue();
+    System.out.println("Jaryl: I see. Alright then. I'll go ahead first and scout out the area alright? Meet me at the Longa Fruit Forest Road."); 
+    System.out.println("\nHe speaks to a small orange crystal in his hand before sprinting into the forest. He's fast!");
+    pressEnterToContinue();
+    clearScreen();
+    System.out.println("  ~Story Quest: Meet Jaryl at the Longa Fruit Forest Road Begin!~");
+    System.out.println("\nObjective: Meet Jaryl at the Longa Fruit Forest Road to go find Toliare! (Warning: Prepare for battle)");
+    setQuestCount(3);
   }
     
   
