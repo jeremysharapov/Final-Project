@@ -330,6 +330,7 @@ public class NormalRPG{
       }
     }
   }
+  
   private void mariaCheckup(){
     clearScreen();
     boolean leave = false;
@@ -353,6 +354,47 @@ public class NormalRPG{
     System.out.println("Maria: Seeya around!");
   }
   
+  private void LongaOfficeCutScene(){
+    clearScreen();
+    System.out.println("You enter the Longa Office. The Mayor sits at his desk, ogling at a rather suspicious looking piece of paper.");
+    boolean leave = false;
+    while (leave != true){
+      pressEnterToContinue();
+      clearScreen();
+      System.out.println("What will you do?\n  [TALK] to the Mayor\n  [LEAVE]");
+      String s = (getInput()).toUpperCase();
+      if (s.equals("TALK")){
+        MayorTalk();
+      }
+      if (s.equals("LEAVE")){
+        leave = true;
+      }
+    }
+  }
+  
+  private void MayorTalk(){
+    clearScreen();
+    boolean leave = false;
+    System.out.println("As you approach the Mayor he suddenly looks up and screams, before hastily stuffing the paper(read: picture) into a random drawer.");
+    System.out.println("\nMayor: *Cough* You shouldn't sneak up on me like that youngster, ho ho~! Who knows when this ol' heart of mine might kick the bucket, hoo!");
+    pressEnterToContinue();
+    System.out.println("He leans forward.");
+    System.out.println("Mayor: Let's just keep what you saw a secret, eh? A single man's gotta find some source of spice in his life after all, ho ho~!");
+    while (leave != true){
+      pressEnterToContinue();
+      clearScreen();
+      System.out.println("Mayor: Now, what is it that you need?\n  [QUEST]\n  [LEAVE]");
+      String s = (getInput()).toUpperCase();
+      if (s.equals("QUEST")){
+        QuestCutScene();
+      }
+      if (s.equals("LEAVE")){
+        leave = true;
+      }
+    }
+    System.out.println("Mayor: Ho ho, farewell youngster!");
+  }
+  
   
     
       
@@ -366,7 +408,7 @@ public class NormalRPG{
     pressEnterToContinue();
     System.out.println("You found a Mage Brooch!\nYou turn it over to find a partially scratched off name: Tol...e F...ryn");
     pressEnterToContinue();
-    System.out.println("You carefully put it into your bag before heading to Longa Town.\nBehind you the forest slowly blocks the path with plantgrowth...");
+    System.out.println("You carefully put it into your bag before heading to Longa Town.");
     pressEnterToContinue();
   }
   
@@ -451,6 +493,13 @@ public class NormalRPG{
     pressEnterToContinue();
     System.out.println("You find nothing of interest here so you go back to the previous room.");
   }
+  
+  private void QuestCutScene(){
+    clearScreen();
+    if (MageBrooch == false) {
+      System.out.println("Ho ho~, I smell an adventurer in you! Only folks like you ask a town's head if they've got any quests!");
+      
+    
   
 //------------------------------------------------Scanner shtuff--------------------------------------------------------
   private static void clearScreen(){
