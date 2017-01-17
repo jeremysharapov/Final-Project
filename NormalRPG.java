@@ -16,6 +16,7 @@ public class NormalRPG{
   
   private boolean MageBrooch;
   private boolean TravelerGuide;
+  private boolean Cheat;
   
 //--------------------------------------------------Initialization------------------------------------------------------
   public NormalRPG(){
@@ -23,6 +24,7 @@ public class NormalRPG{
     
     boolean MageBrooch = false;
     boolean TravelerGuide = false;
+    boolean Cheat = false;
     
     int QuestCount = 0;
     
@@ -256,9 +258,16 @@ public class NormalRPG{
   
   public void Skillattack(int[] attacker, int[] target, String attackerName, String targetName, String skill){
     if (skill.equals("FIREBALL")){
-      sethp(target, gethp(target) - 15); //FOR NOW NO ONE HAS FIRE IMMUNITY SO THIS IS RAW DMG
-      setmp(attacker, getmp(attacker) - 1);
-      System.out.println(attackerName + " just used [Fireball]: 15 fire dmg dealt to " + targetName + "!");
+      if (Cheat == true){
+        sethp(target, gethp(target) - 9001); //FOR NOW NO ONE HAS FIRE IMMUNITY SO THIS IS RAW DMG
+        setmp(attacker, getmp(attacker) - 1);
+        System.out.println(attackerName + " just used [Fireball]: 9001 fire dmg dealt to " + targetName + "!");
+      }
+      else{
+        sethp(target, gethp(target) - 15); //FOR NOW NO ONE HAS FIRE IMMUNITY SO THIS IS RAW DMG
+        setmp(attacker, getmp(attacker) - 1);
+        System.out.println(attackerName + " just used [Fireball]: 15 fire dmg dealt to " + targetName + "!");
+      }
     }
     if (skill.equals("HEAL")){
       int z = (int)(getmaxhp(target) * 1.05);
@@ -471,9 +480,9 @@ public class NormalRPG{
     setlvl(Goblin, 1);
     setlvl(Goblin, 1);
     sethp(Goblin, 25);
-    setmaxhp(Slime, 25);
-    setmp(Slime, 0);
-    setmaxmp(Slime, 0);
+    setmaxhp(Goblin, 25);
+    setmp(Goblin, 0);
+    setmaxmp(Goblin, 0);
     setatk(Goblin, 15);
     setdef(Goblin, 10);
     setspd(Goblin, 5);
@@ -574,10 +583,10 @@ public class NormalRPG{
         }
         if (QuestCount >= 3){
           LongaRoad();
-          if (QuestCount > 3 && QuestCount < 4){
+          if (QuestCount == 4){
             RoadFrenzy();
           }
-          if (QuestCount == 4){
+          if (QuestCount == 5){
             HeartB();
             EnemyName = "Dragon";
             Battle(Player, Dragon, 1);
@@ -667,6 +676,11 @@ public class NormalRPG{
     }
     if (isDead(Player)){
       DeadCutScene();
+    }
+    else {
+      clearScreen();
+      System.out.println("  ~Story Quest: Get to the Heart of Longa Fruit Forest CLEAR!~");
+      setQuestCount(5);
     }
   }
   
@@ -839,6 +853,7 @@ public class NormalRPG{
       System.out.println("You carefully put it into your bag.");
     }
     else {
+      clearScreen();
       System.out.println("Nothing left to find.");
     }
   }
@@ -884,6 +899,7 @@ public class NormalRPG{
     System.out.println("Mayor: Well, you're free to go whenever.");
     System.out.println("Mayor: Just don't let Maria see you, else she might make you do another checkup, ho ho~!");
     pressEnterToContinue();
+    clearScreen();
     System.out.println("Mayor: ...Though I personally wouldn't mind checking her up, hoo!");
     System.out.println("\nThe Mayor jubilantly strolls out of the room, leaving you alone.");
   }
@@ -1054,8 +1070,6 @@ public class NormalRPG{
     
   private void HeartB(){
     clearScreen();
-    System.out.println("  ~Story Quest: Get to the Heart of Longa Fruit Forest CLEAR!~");
-    setQuestCount(5);
     System.out.println("Jaryl: Tch, we're getting nowhere. Hang on!");
     pressEnterToContinue();
     System.out.println("Suddenly Jaryl sprouts wings on his back and his feet became scaled claws like those of a bird. He grabs you by the shoulder and the two of you fly to the Heart.");
@@ -1090,15 +1104,16 @@ public class NormalRPG{
     System.out.println("\nToliare: Eddie.");
     System.out.println("\nEddie: Rrr...");
     pressEnterToContinue();
+    clearScreen();
     System.out.println("You and Jaryl stare at each other, before turning back to her.");
     System.out.println("\nJaryl: Didn't, er Eddie, kidnap you?");
     pressEnterToContinue();
     System.out.println("Toliare: He did but he apologized afterwards. He was just born after all.");
     System.out.println("\nYou look at the massive Dragon that towered over all of you. Out of the corner of your eye you saw Jaryl do the same. Just born...yeah right...");
     pressEnterToContinue();
-    clearScreen();
     System.out.println("Toliare: It's true! Hmph, now if you'll excuse me I have a friend to play with.");
     pressEnterToContinue();
+    clearScreen();
     System.out.println("Toliare: Eddie~ Eddie~ my friend. Who's your bestest bestie Eddie Ed Edd~?");
     System.out.println("\nEddie: ROARRR!");
     System.out.println("\nToliare: Ahh! You're so adorable!");
