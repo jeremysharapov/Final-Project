@@ -21,7 +21,7 @@ public class NormalRPG{
   public NormalRPG(){
     Player = new int[10];
     
-    boolean CursedAmulet = false;
+    boolean MageBrooch = false;
     boolean TravelerGuide = false;
     
     int QuestCount = 0;
@@ -287,7 +287,7 @@ public class NormalRPG{
     boolean leave = false;
     while (leave != true){
     clearScreen();
-    System.out.println("Who are you?\n  A [KNIGHT]\n  A [WIZARD]\n  A [WARRIOR]\n  A [NINJA]");
+    System.out.println("Who are you?\n  I am a [KNIGHT]\n  I am a [WIZARD]\n  I am a [WARRIOR]\n  I am a [NINJA]");
       String s = getInput().toUpperCase();
       if (s.equals("KNIGHT")){
         setlvl(Player, 1);
@@ -301,6 +301,7 @@ public class NormalRPG{
         setmaxmp(Player, 5);
         PlayerName = "Knight-You";
         System.out.println("You remembered you are a Knight!");
+        leave = true;
       }
       if (s.equals("WIZARD")){
         setlvl(Player, 1);
@@ -309,11 +310,12 @@ public class NormalRPG{
         setdef(Player, 5);
         setspd(Player, 15);
         setmp(Player, 20);
-        setskills(Player, 0);
+        setskills(Player, 1);
         setmaxhp(Player, 50);
         setmaxmp(Player, 20);
         PlayerName = "Wizard-You";
-     System.out.println("You remembered you are a Wizard!");
+        System.out.println("You remembered you are a Wizard!");
+        leave = true;
       }
       if (s.equals("WARRIOR")){
         setlvl(Player, 1);
@@ -327,6 +329,7 @@ public class NormalRPG{
         setmaxmp(Player, 5);
         PlayerName = "Warrior-You";
         System.out.println("You remembered you are a Warrior!");
+        leave = true;
       }
       if (s.equals("NINJA")){
         setlvl(Player, 1);
@@ -340,6 +343,7 @@ public class NormalRPG{
         setmaxmp(Player, 10);
         PlayerName = "Ninja-You";
         System.out.println("You remembered you are a Ninja!");
+        leave = true;
       }
       pressEnterToContinue();
       clearScreen();
@@ -375,7 +379,9 @@ public class NormalRPG{
           Attack(player, enemy, PlayerName, EnemyName);
           if (isDead(enemy)){
             System.out.println(EnemyName + " WAS DEFEATED!");
-            System.out.println(PlayerName + " gained " + getxp(enemy) + "xp");
+            pressEnterToContinue();
+            clearScreen();
+            System.out.println(PlayerName + " gained " + getxp(enemy) + " XP!");
             setxp(player, getxp(enemy) + getxp(player));
             levelupcheck(player);
             pressEnterToContinue();
@@ -446,7 +452,7 @@ public class NormalRPG{
         setmaxhp(player, getmaxhp(player) + 5);
         setmaxmp(player, getmaxmp(player) + 2);
       }
-      System.out.println("Congratulations!" + PlayerName + " have leveled up! " + PlayerName + " are now level " + getlvl(player));
+      System.out.println("\nCongratulations!" + PlayerName + " have leveled up! " + PlayerName + " are now level " + getlvl(player));
     }
   }
   
@@ -822,7 +828,7 @@ public class NormalRPG{
           
 //---------------------------------------Cut Scenes(and Quest Item Get!)------------------------------------------------
   private void LongaOutskirtsCutScene(){
-    if (QuestCount == 0){
+    if (MageBrooch == false){
       clearScreen();
       setMageBrooch(true);
       System.out.println("You search the area for clues.");
