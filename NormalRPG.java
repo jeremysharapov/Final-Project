@@ -6,6 +6,10 @@ public class NormalRPG{
   
   private int[] Player;
   private int[] Slime;
+  private int[] Goblin;
+  private int[] DarkNymph;
+  private int[] Wyvern;
+  private int[] Dragon;
   
   private int PlayerClass;
   private int QuestCount;
@@ -340,10 +344,11 @@ public class NormalRPG{
       pressEnterToContinue();
       clearScreen();
     }
+  }
   
   private void Battle(int[] player, int[] enemy, int lvl){
     boolean flee = false;
-    ResetStats(lvl)
+    ResetStats(lvl);
     System.out.println("Something jumps out of the shadows...");
     System.out.println(PlayerName + " encountered " + EnemyName + "!");
     while (isDead(player) != true && isDead(enemy) != true && flee != true){
@@ -387,7 +392,7 @@ public class NormalRPG{
         Skills(player, enemy);
       }
       if (s.equals("FLEE")){
-        if (QuestCount = 4){
+        if (QuestCount == 4){
           System.out.println("You can't flee this battle! Creatures block the path!");
         }
         else {
@@ -445,7 +450,7 @@ public class NormalRPG{
     }
   }
   
-  public static void ResetStats(int lvl){
+  public void ResetStats(int lvl){
     setlvl(Slime, 1);
     sethp(Slime, 15);
     setmaxhp(Slime, 15);
@@ -566,12 +571,12 @@ public class NormalRPG{
           if (QuestCount > 3 && QuestCount < 4){
             RoadFrenzy();
           }
-          if (QuestCount = 4){
+          if (QuestCount == 4){
             HeartB();
             EnemyName = "Dragon";
             Battle(Player, Dragon, 1);
-            if (isDead(r.Player)){
-              r.DeadCutScene();
+            if (isDead(Player)){
+              DeadCutScene();
             }
             else {
               HeartA();
@@ -610,7 +615,7 @@ public class NormalRPG{
       }
     }
     EnemyName = "Slime";
-    Battle(Player, Slime);
+    Battle(Player, Slime, (getlvl(Player) + 2) - ((int)(Math.random() * 5)));
   }
   
   private void LongaTown(){
@@ -654,8 +659,8 @@ public class NormalRPG{
       Battle(Player, RMG(), (getlvl(Player) + 2) - ((int)(Math.random() * 5)));
       mobCount++;
     }
-    if (isDead(r.Player)){
-      r.DeadCutScene();
+    if (isDead(Player)){
+      DeadCutScene();
     }
   }
   
@@ -676,6 +681,9 @@ public class NormalRPG{
     if (s == 4){
       EnemyName = "Wyvern";
       return Wyvern;
+    }
+    else {
+      return Slime;
     }
   }
     
@@ -1024,7 +1032,7 @@ public class NormalRPG{
     System.out.println("You are filled with trepidation.");
     pressEnterToContinue();
     clearScreen();
-    if (QuestCount = 3){
+    if (QuestCount == 3){
       System.out.println("  ~Story Quest: Meet Jaryl at the Longa Fruit Forest Road CLEAR!~");
       System.out.println("\nJaryl suddenly drops down from a tree, startling you.");
       System.out.println("\nJaryl: You're finally here. As you can probably tell whatever's at the Heart is stirring up all the creatures.");
@@ -1093,7 +1101,7 @@ public class NormalRPG{
     System.out.println("\nJaryl: L-let's go, I guess...");
     pressEnterToContinue();
     System.out.println("You leave the cave behind, Toliare's squeals of delight following you out. Jaryl walks back to town in a dazed manner, though he still manages to kill any creature that appears.");
-    System.out.println("\nWhat a way to end this adventure.")
+    System.out.println("\nWhat a way to end this adventure.");
   }
     
     
@@ -1122,7 +1130,7 @@ public class NormalRPG{
     r.ChooseYourClass(); 
     System.out.println("You wake up in the outskirts of the Longa Fruit Forest. You feel very weak...best you head to town.");
     pressEnterToContinue();
-    r.Battle(r.Player, r.Slime);
+    r.Battle(r.Player, r.Slime, 1);
     if (isDead(r.Player)){
       r.DeadCutScene();
     }
