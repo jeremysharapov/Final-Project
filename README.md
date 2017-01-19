@@ -1,6 +1,7 @@
 # Final-Project/NormalRPG
 Welcome to NormalRPG. This is your average role-playing, text-based, terminal-oriented game.
 Requirements: Just javac NormalRPG.java and then java NormalRPG
+(For a typo checked version of this game go to the Finalfixed branch and javac/java the NormalRPG.java game there!!)
 
 To play, simply: 
   1. Type the choicein [] brackets when prompted (it is not case sensitive, but be sure to spell it right!)
@@ -32,39 +33,40 @@ Some things we haven't implemented/fixed:
 *  A glitch in the leveling system (it only sometimes works??)
 *  A credits screen (-gaspu-) so for now take this:
       
-      This was NormalRPG.java
-      Made by Jeremy Sharapov and Emily Wang
-      Hope you had fun!!
+     * This was NormalRPG.java
+     * Made by Jeremy Sharapov and Emily Wang
+     * Hope you had fun!!
 
 Walkthrough(with cheat mode activated)
-Go into the java file, go into the initialization and set boolean cheat = true;
-Then save, javac, and java NormalRPG.java!
-Whenever you enter a battle do: skills, fireball, and then press enter when prompted
+*Go into the java file, go into the initialization and set boolean cheat = true;*
+*Then save, javac, and java NormalRPG.java!*
+*Whenever you enter a battle do: skills, fireball, and then press enter when prompted*
 
 Order of events once you start the game:
 Choose class (Do wizard to be able to use skills)
-  -Battle-
-  Longa
-  Talk
-  Quest
-  Leave
-  Leave
-  Leave
-  Outskirts
-  Search
-  Leave
-  -Battle-
-  Town
-  Longa
-  Talk
-  Quest
-  Leave
-  Gate
-  Talk
-  Join
-  Leave
-  Leave
-  Road
-  -Battlesssssss-
-  and then free roam~
+1.  -Battle-
+2.  Longa
+3.  Talk
+4.  Quest
+5.  Leave
+6.  Leave
+7.  Leave
+8.  Outskirts
+9.  Search
+10.  Leave
+11.  -Battle-
+12.  Town
+13.  Longa
+14.  Talk
+15.  Quest
+16.  Leave
+17.  Gate
+18.  Talk
+19.  Join
+20.  Leave
+21.  Leave
+22.  Road
+23.  -Battlesssssss-
+24.  and then free roam~
+
 
