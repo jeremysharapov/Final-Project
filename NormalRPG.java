@@ -234,7 +234,7 @@ public class NormalRPG{
       System.out.println("\n  What will you choose?\n" + x + "   [RETURN] to the fight menu");
       String s = (getInput()).toUpperCase();
       if (getspd(player) < getspd(enemy) && s.equals("RETURN") == false){
-        Attack(enemy, player, EnemyName, PlayerName);
+        Attack(enemy, player, EnemyName, PlayerName, s);
         if (isDead(player)){
           System.out.println(PlayerName + " WAS DEFEATED!");
           pressEnterToContinue();
