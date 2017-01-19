@@ -18,7 +18,7 @@ Have fun~
 
 
 Some things we haven't implemented/fixed:
-  Side Quests
+\n  Side Quests
   Visuals (Map, pixelated yous, etc)
   Inventory
   Gear and Weapons
