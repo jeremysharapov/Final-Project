@@ -44,9 +44,9 @@ public class NormalRPG{
     Goblin = new int[10];
     setlvl(Goblin, 1);
     sethp(Goblin, 25);
-    setmaxhp(Slime, 25);
-    setmp(Slime, 0);
-    setmaxmp(Slime, 0);
+    setmaxhp(Goblin, 25);
+    setmp(Goblin, 0);
+    setmaxmp(Goblin, 0);
     setatk(Goblin, 15);
     setdef(Goblin, 10);
     setspd(Goblin, 5);
@@ -240,13 +240,18 @@ public class NormalRPG{
           pressEnterToContinue();
         }
         else{
-          Attack(player, enemy, PlayerName, EnemyName);
+          Skillattack(player, enemy, PlayerName, EnemyName);
         }
       }
       if (s.equals("RETURN") == false){
         Skillattack(Player, enemy, PlayerName, EnemyName, s);
         if (isDead(enemy)){
           System.out.println(EnemyName + " WAS DEFEATED!");
+          pressEnterToContinue();
+          clearScreen();
+          System.out.println(PlayerName + " gained " + getxp(enemy) + " XP!");
+          setxp(player, getxp(enemy) + getxp(player));
+          levelupcheck(player);
           pressEnterToContinue();
         }
         else{
@@ -427,7 +432,7 @@ public class NormalRPG{
         setdef(player, getdef(player) + 3);
         setspd(player, getspd(player) + 1);
         setmp(player, getmp(player) + 1);
-        setskills(Player, getskills(player) + 1);
+        setskills(player, getskills(player) + 1);
         setmaxhp(player, getmaxhp(player) + 10);
         setmaxmp(player, getmaxmp(player) + 1);
       }
@@ -437,7 +442,7 @@ public class NormalRPG{
         setdef(player, getdef(player) + 1);
         setspd(player, getspd(player) + 3);
         setmp(player, getmp(player) + 4);
-        setskills(Player, getskills(player) + 1);
+        setskills(player, getskills(player) + 1);
         setmaxhp(player, getmaxhp(player) + 10);
         setmaxmp(player, getmaxmp(player) + 4);
       }
@@ -447,7 +452,7 @@ public class NormalRPG{
         setdef(player, getdef(player) + 3);
         setspd(player, getspd(player) + 1);
         setmp(player, getmp(player) + 1);
-        setskills(Player, getskills(player) + 1);
+        setskills(player, getskills(player) + 1);
         setmaxhp(player, getmaxhp(player) + 20);
         setmaxmp(player, getmaxmp(player) + 1);
       }
@@ -457,11 +462,11 @@ public class NormalRPG{
         setdef(player, getdef(player) + 1);
         setspd(player, getspd(player) + 4);
         setmp(player, getmp(player) + 2);
-        setskills(Player, getskills(player) + 1);
+        setskills(player, getskills(player) + 1);
         setmaxhp(player, getmaxhp(player) + 5);
         setmaxmp(player, getmaxmp(player) + 2);
       }
-      System.out.println("\nCongratulations!" + PlayerName + " have leveled up! " + PlayerName + " are now level " + getlvl(player));
+      System.out.println("\nCongratulations! " + PlayerName + " have leveled up! " + PlayerName + " are now level " + getlvl(player));
     }
   }
   
