@@ -18,19 +18,20 @@ Have fun~
 
 
 Some things we haven't implemented/fixed:
-\n  Side Quests
-  Visuals (Map, pixelated yous, etc)
-  Inventory
-  Gear and Weapons
-  Text Log/History
-  More skills and skill related traits
-  More mobs, more areas, more quests~
-  Colored/Customized text
-  Balance!!!!
-  The Traveler's Guide q-q
-  A missing while loop during the skills tab (if you accidentally hit enter without the write command typed the mob will still attack!)
-  A glitch in the leveling system (it only sometimes works??)
-  A credits screen (-gaspu-) so for now take this:
+*  Side Quests
+*  Visuals (Map, pixelated yous, etc)
+*  Inventory
+*  Gear and Weapons
+*  Text Log/History
+*  More skills and skill related traits
+*  More mobs, more areas, more quests~
+*  Colored/Customized text
+*  Balance!!!!
+*  The Traveler's Guide q-q
+*  A missing while loop during the skills tab (if you accidentally hit enter without the write command typed the mob will still attack!)
+*  A glitch in the leveling system (it only sometimes works??)
+*  A credits screen (-gaspu-) so for now take this:
+      
       This was NormalRPG.java
       Made by Jeremy Sharapov and Emily Wang
       Hope you had fun!!
